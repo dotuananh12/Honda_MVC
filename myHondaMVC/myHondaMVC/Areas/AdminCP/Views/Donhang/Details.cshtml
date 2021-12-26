@@ -1,0 +1,139 @@
+﻿@model myHondaMVC.Models.dathang
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/AdminCP/Views/Shared/_layout.cshtml";
+    var ctdh = (List<myHondaMVC.Models.chitietdathang>)
+    ViewBag.ctdh;
+}
+<section class="content-header">
+    <h1>
+        Đơn hàng @Model.madh ( @Model.tenkh )
+    </h1>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="col-md-9">
+                <div class="box">
+                    <div class="">
+                        @{
+                                if (Model.status != 4 && Model.status != 3) /*kich 3 or 4 thì sẽ ẩn model*/
+                                {
+                                <p>Trạng thái đơn hàng : </p>
+                                <button class="btn btn-success btn-sm" onclick="return _danggiao('@Model.madh',2)">đang giao hàng</button>
+                                <button class="btn btn-info btn-sm" onclick="return _danggiao('@Model.madh',3)">hoàn tất</button>
+                                <button class="btn btn-danger btn-sm" onclick="return _danggiao('@Model.madh',4)">Hủy bỏ</button>
+                            }
+                        }
+                    </div>
+                    <div class="box-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Giá bán</th>
+                                    <th>Số lượng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int stt = 0;
+                                    foreach (var item in ctdh)
+                                    {
+                                        <tr>
+                                            <td>@Html.Raw(stt = stt + 1)</td>
+                                            <td>@item.xemay.tenxe</td>
+                                            <td>@double.Parse(item.giaban.ToString()).ToString("#,##0")</td>
+                                            <td>@item.soluong</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col-md-3">
+                <div class="panel">
+                    <div class="panel-body">
+                        <h4>
+                            Đơn hàng :
+                          @{ 
+                              if (Model.status == 1)
+                              {
+                                  <small class="label pull-right bg-yellow">
+                                      Chờ xác nhận
+                                  </small>
+                              }
+                              if (Model.status == 2)
+                              {
+                                <small class="label pull-right bg-green">
+                                    Đang giao hàng
+                                </small>
+                              }
+                              if (Model.status == 3)
+                              {
+                                <small class="label pull-right bg-blue">
+                                    Hoàn tất
+                                </small>
+                              }
+                              if (Model.status == 4)
+                              {
+                                <small class="label pull-right bg-red">
+                                    Hủy bỏ
+                                </small>
+                              }
+                        }
+
+                        </h4>
+                        <p>Khách hàng: @Model.tenkh</p>
+                        <p>Ngày đặt hàng: @string.Format("{0:dd-MM-yyyy}", Model.ngaytao)</p>
+                        <p>Email : @Model.email</p>
+                        <p>Phone : @Model.phone</p>
+                        <p>Địa chỉ : @Model.diachi</p>
+                        <p> Tổng tiền : @double.Parse(Model.tongtien.ToString()).ToString("#,##0")</p>
+                    </div>
+                </div>
+            </div>
+            
+
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<script>
+    function _danggiao(id,status) {
+        var cf = confirm("bạn muốn chuyển trạng thái.");
+        if (cf) {
+            $.ajax({
+                url: "/admincp/donhang/status",
+                type: "post",
+                datapype: "json",
+                data: { id: id, status: status },
+                success: function (data) {
+                    if (data.success == true) {
+                        alert(data.ms);
+                        location.reload();
+                    }
+                    else {
+                        alert(data.ms);
+                    }
+                },
+                error: function (data) {
+                    alert('xay ra loi');
+                }
+            })
+        }
+    }
+</script>
+
+
+
+
+
+

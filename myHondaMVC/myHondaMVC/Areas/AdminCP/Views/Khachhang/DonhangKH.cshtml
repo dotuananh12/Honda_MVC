@@ -1,0 +1,90 @@
+﻿@model IEnumerable<myHondaMVC.Models.dathang>
+
+@{
+    ViewBag.Title = "DonhangKH";
+    Layout = "~/Areas/AdminCP/Views/Shared/_layout.cshtml";
+}
+<section class="content-header">
+    <h1>
+        Danh sách đơn hàng ( @ViewBag.name )
+    </h1>
+</section>
+<section class="content">
+    <div class="row">
+        @foreach (var itemdh in Model)
+        {
+            <div class="col-xs-12">
+                <div class="col-md-9">
+                    <div class="box">
+                        
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Tên sản phẩm</th>
+                                        <th>Giá bán</th>
+                                        <th>Số lượng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int stt = 0;
+                                        foreach (var item in itemdh.chitietdathangs)
+                                        {
+                                            <tr>
+                                                <td>@Html.Raw(stt = stt + 1)</td>
+                                                <td>@item.xemay.tenxe</td>
+                                                <td>@item.giaban</td>
+                                                <td>@item.soluong</td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <h4>
+                                Đơn hàng :
+                                @{
+                                    if (itemdh.status == 1)
+                                    {
+                                        <small class="label pull-right bg-yellow">chờ xác nhận</small>
+                                    }
+                                    if (itemdh.status == 2)
+                                    {
+                                        <small class="label pull-right bg-green">đang giao hàng</small>
+                                    }
+                                    if (itemdh.status == 3)
+                                    {
+                                        <small class="label pull-right bg-blue">hoàn thành</small>
+                                    }
+                                    if (itemdh.status == 4)
+                                    {
+                                        <small class="label pull-right bg-red">đơn hàng đã hủy</small>
+                                    }
+                                }
+
+                            </h4>
+                            <p>Khách hàng: @itemdh.tenkh</p>
+                            <p>Ngày đặt hàng: @string.Format("{0:dd-MM-yyyy}", itemdh.ngaytao)</p>
+                            <p>Email : @itemdh.email</p>
+                            <p>Phone : @itemdh.phone</p>
+                            <p>Địa chỉ : @itemdh.diachi</p>
+                            <p> Tổng tiền : @double.Parse(itemdh.tongtien.ToString()).ToString("#,##0")</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- /.col -->
+                                    }
+
+    </div>
+    <!-- /.row -->
+</section>

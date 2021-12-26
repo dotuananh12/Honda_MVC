@@ -1,0 +1,219 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Page/Views/Shared/LayoutTrangchu.cshtml";
+}
+
+<div class="services-breadcrumb">
+    <div class="agile_inner_breadcrumb">
+        <div class="container">
+            <ul class="w3_short">
+                <li>
+                    <a href="@Url.Action("Index","Trangchu")">Home</a>
+                    <i>|</i>
+                </li>
+                <li>Giỏ hàng</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="privacy">
+    <div class="container">
+        <!-- tittle heading -->
+        <h3 class="tittle-w3l">
+            Giỏ hàng
+            <span class="heading-style">
+                <i></i>
+                <i></i>
+                <i></i>
+            </span>
+        </h3>
+        <!-- //tittle heading -->
+        <div class="checkout-right">
+            <div class="table-responsive" id="loadcart">
+            </div>
+        </div>
+        <div class="checkout-left">
+            <div class="address_form_agile">
+                <div class="checkout-right-basket">
+                    <a href="#" onclick="return ktragio()">
+                        Thực hiện thanh toán
+                        <span class="fa fa-hand-o-right" aria-hidden="true"></span>
+                    </a>
+                </div>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        _loadcart();
+    });
+
+    function _loadcart() {
+        $.ajax({
+            url: '/Page/Giohang/LoadCart',
+            type: 'POST',
+            datatype: 'JSON',
+            success: function (data) {
+                var html = '';
+                if (data.success == true) {
+                    html += ' <h4>';
+                    html += ' Your shopping cart contains:';
+                    html += '    <span>' + data.soluong + ' Products</span>';
+                    html += ' </h4>';
+                    html += '<table class="timetable_sub">';
+                    html += ' <thead>';
+                    html += '    <tr>';
+                    html += '         <th style="width: 300px;">Product</th>';
+                    html += '        <th>Quality</th>';
+                    html += '        <th style="width: 300px;">Product Name</th>';
+                    html += '          <th>Price</th>';
+                    html += '        <th>Tổng</th>';
+                    html += '          <th>Remove</th>';
+                    html += '      </tr>';
+                    html += '   </thead>';
+                    html += '  <tbody>';
+                    $.each(data.dt, function (key, item) {
+                        html += '      <tr class="">';
+                        html += '          <td class="invert-image">';
+                        html += '             <a >';
+                        html += '                 <img src="/image/' + item.img + '" alt="" class="img-responsive">';
+                        html += '             </a>';
+                        html += '          </td>';
+                        html += '          <td class="invert">';
+                        html += '             <div class="quantity">';
+                        html += '                 <div class="quantity-select">';
+                        html += '                     <button class="btn-link entry value-minus" onclick="return outcart(' + item.id + ')">&nbsp;</button>';
+                        html += '                    <div class="entry value">';
+                        html += '                       <span>' + item.soluong + '</span>';
+                        html += '                    </div>';
+                        html += '                   <button class="btn-link entry value-plus active" onclick="return incart(' + item.id + ')">&nbsp;</button>';
+                        html += '              </div>';
+                        html += '          </div>';
+                        html += '      </td>';
+                        html += '      <td class="">' + item.tensp + '</td>';
+                        html += '     <td class="invert">' + formatNumber(item.dongia, '.', ',') + '</td>';
+                        html += '     <td class="invert">' + formatNumber(item.ThanhTien, '.', ',') + '</td>';
+                        html += '    <td class="invert">';
+                        html += '        <div class="rem">';
+                        html += '            <button type="button" class="btn-link close2" onclick="return _deletecart(' + item.id + ')"></button>';
+                        html += '       </div>';
+                        html += '    </td>';
+                        html += ' </tr> '
+                    });
+                    html += '   <tr>';
+                    html += '       <td colspan="4"></td>';
+                    html += '     <td class="text-right">Tổng thành tiền: </td>';
+                    html += '    <td>' + formatNumber(data.thanhtien, '.', ',') + ' </td>';
+                    html += ' </tr>';
+                    html += '</tbody>';
+                    html += '</table>';
+
+                    $('#loadcart').html(html);
+                }
+                else {
+                    html += '  <p class="text-info text-center">';
+                    html += '    Giỏ hàng rỗng!';
+                    html += ' </p>';
+                    $('#loadcart').html(html);
+                }
+            },
+            error: function (data) {
+                alert('xảy ra lỗi');
+            }
+        })
+    }
+    //tăng giảm
+    function incart(id) {
+        $.ajax({
+            url: '/Page/Giohang/Incart',
+            type: 'POST',
+            datatype: 'JSON',
+            data: {
+                id: id
+            },
+            success: function (data) {
+                if (data.success == true) {
+
+                    _loadcart();
+                }
+                else {
+                    $('#msg').html('không đủ sản phẩm');
+                    $('#myModal3').modal('show');
+                }
+            },
+            error: function (data) {
+                alert('xảy ra lỗi');
+            }
+        });
+    }
+    function outcart(id) {
+        $.ajax({
+            url: '/Page/Giohang/Outcart',
+            type: 'POST',
+            datatype: 'JSON',
+            data: {
+                id: id
+            },
+            success: function (data) {
+                if (data.success == true) {
+                    _loadcart();
+                }
+            },
+            error: function (data) {
+                alert('xảy ra lỗi');
+            }
+        });
+    }
+    //
+    function _deletecart(id) {
+        var cf = confirm("bạn chắc chấn chứ");
+        if (cf) {
+            $.ajax({
+                url: '/Page/Giohang/DeleteCart',
+                type: 'POST',
+                datatype: 'JSON',
+                data: {
+                    id: id
+                },
+                success: function (data) {
+                    if (data.success == true) {
+                        _loadcart();
+                    }
+                },
+                error: function (data) {
+                    alert('xảy ra lỗi');
+                }
+            });
+        }
+    }
+
+    function ktragio() {
+        $.ajax({
+            url: '@Url.Action("ktragio", "Giohang")',
+            type: 'POST',
+            datatype: 'JSON',
+
+            success: function (data) {
+                if (data.success == 1) {
+                    $('#msg').html('' + data.msg + '');
+                    $('#myModal3').modal('show');
+                }
+                if (data.success == 2) {
+                    alert(data.msg);
+                    $('#myModal1').modal('show');
+                }
+                if (data.success == 3) {
+                    window.location = '@Url.Action("Index", "Thanhtoan")';
+                }
+            },
+            error: function (data) {
+                $('#msg').html('xảy ra lỗi');
+                $('#myModal3').modal('show');
+            }
+        });
+    }
+</script>

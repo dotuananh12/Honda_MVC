@@ -1,0 +1,141 @@
+﻿@using myHondaMVC.Models;
+@model  myHondaMVC.Models.xemay
+@{
+    myHondacontext db = new myHondacontext();
+    ViewBag.Title = Model.tenxe;
+    ViewBag.Title = "Chitiet";
+    Layout = "~/Areas/Page/Views/Shared/LayoutTrangchu.cshtml";
+}
+
+<div class="services-breadcrumb">
+    <div class="agile_inner_breadcrumb">
+        <div class="container">
+            <ul class="w3_short">
+                <li>
+                    <a href="@Url.Action("Index","Trangchu")">Home</a>
+                    <i>|</i>
+                </li>
+                <li>Sản phẩm<i>|</i></li>
+                <li> @Model.tenxe<i>|</i></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="banner-bootom-w3-agileits">
+    <div class="container">
+        <!-- tittle heading -->
+        <h3 class="tittle-w3l">
+            Chi tiết sản phẩm
+            <span class="heading-style">
+                <i></i>
+                <i></i>
+                <i></i>
+            </span>
+        </h3>
+        <!-- //tittle heading -->
+        <div class="col-md-5 single-right-left ">
+            <div class="grid images_3_of_2">
+                <div class="flexslider">
+                    <ul class="slides">
+                        <li data-thumb="/Image/@Model.img">
+                            <div class="thumb-image">
+                                <img src="/Image/@Model.img" data-imagezoom="true" class="img-responsive" alt="">
+                            </div>
+                        </li>
+                        @{
+                            foreach (var item in Model.anhminhhoas)
+                            {
+                                <li data-thumb="/Image/@item.img">
+                                    <div class="thumb-image">
+                                        <img src="/Image/@item.img" data-imagezoom="true" class="img-responsive" alt="">
+                                    </div>
+                                </li>
+                            }
+                        }
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7 single-right-left simpleCart_shelfItem">
+            <h3 style="color:red;  font-weight: bold">@Model.tenxe</h3>
+
+            <p>
+                <span class="item_price">@double.Parse((Model.giaban - Model.giakhuyenmai).ToString()).ToString("#,##0")</span>
+                @*<del>@double.Parse(Model.giaban.ToString()).ToString("#,##0")</del>*@
+                <del> @Model.giakhuyenmai</del>
+                <label>Giao hàng miễn phí</label>
+            </p>
+            <div class="single-infoagile">
+                <ul>
+                    <li>
+                        Tiền mặt khi giao hàng Đủ điều kiện.
+                    </li>
+                    <li>
+                        Tốc độ vận chuyển để giao hàng.
+                    </li>
+                    <li>
+                        Được bán và hoàn thành bởi Honda Việt Nam
+                    </li>
+                </ul>
+            </div>
+            <div class="product-single-w3l">
+                <p>
+                    <i class="fa fa-hand-o-right" aria-hidden="true"></i>Thông tin
+                    <label> sản phẩm.</label>
+                </p>
+                <ul>
+                    <li>
+                        Đại lý : @Model.nhacungcap.tenncc
+                    </li>
+                    <li>
+                        Dòng xe : @Model.loaixe.tenloai .          
+                    </li>
+                    <li>
+                        Màu sắc : @Model.mausac .
+                    </li>
+                    <li>
+                        Số khung : @Model.khungxe.
+                    </li>
+                    <li>
+                        Động cơ : @Model.dongco. 
+                    </li>
+                    <li>
+                        Dung tích xy lanh : @Model.dungtichxylanh.
+                    </li>
+                    <li>
+                        Mức tiêu thụ nguyên liệu :@Model.muctieuthunguyenlieu.
+                    </li>
+                    <li>
+                        Phuộc trước : @Model.phuoctruoc .
+                    </li>
+                    <li>
+                        Phuộc sau: @Model.phuocsau.
+                    </li>
+                    
+                    <li>
+                        Khối lượng : @Model.khoiluong.
+                    </li>
+                    <li>
+                        Còn @Model.soluong sản phẩm
+                    </li>
+                </ul>
+                <p>
+                    <i class="fa fa-refresh" aria-hidden="true"></i>Tất cả sản phẩm sẽ được bảo hành trong 
+                    <label>2 năm.</label>
+                </p>
+            </div>
+            <div class="occasion-cart">
+                <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+                    <fieldset>
+                        <input type="button" name="submit" onclick="return addCart('@Model.maxe ')" value="Add to cart" class="button" />
+                    </fieldset>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+</div>

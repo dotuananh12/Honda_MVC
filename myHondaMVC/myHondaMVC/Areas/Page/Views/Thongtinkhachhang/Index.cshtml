@@ -1,0 +1,115 @@
+﻿@using myHondaMVC.Models;
+@{
+    myHondacontext db = new myHondacontext();
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Page/Views/Shared/LayoutTrangchu.cshtml";
+    khachhang nd = (khachhang)Session["nguoidung_khach"];
+}
+
+<div class="services-breadcrumb">
+    <div class="agile_inner_breadcrumb">
+        <div class="container">
+            <ul class="w3_short">
+                <li>
+                    <a href="#">Home</a>
+                    <i>|</i>
+                </li>
+                <li>Thông tin khách hàng</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="checkout-right">
+    <div class="thongtin">
+        <div class="inner_w3l_agile_grids">
+            <div class="box-body box-profile">
+                <img style="width:100px;border:3px solid aqua;margin: 0 auto;border-radius:50%" class="img-responsive img-circle" src="~/image/@nd.img" alt="">
+
+                <h3 class="text-center">@nd.tenkh</h3>
+
+
+                <p class="text-center"><i class="fa fa-user"></i> @nd.email</p>
+
+                <ul class="list-group list-group-unbordered">
+                    <li class="list-group-item">
+                        <b>Tài khoản </b> <a class="pull-right">@nd.email</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Mật khẩu truy cập</b> <a class="pull-right">@nd.pass</a>
+                    </li>
+                   
+                    <li class="list-group-item">
+                        <b>Địa chỉ</b> <a class="pull-right">@nd.diachi</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Phone</b> <a class="pull-right">@nd.phone</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Số tiền</b> <a class="pull-right">@double.Parse((nd.sotiendamua).ToString()).ToString("#,##0")</a>
+                    </li>
+
+                </ul>
+
+                <button title="Sửa @nd.makh" type="button" class="col-lg-4 pull-right btn btn-success btn-sm fa fa-pencil-square-o" data-toggle="modal" data-target="#myModalProfile"> cập nhập</button>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModalProfile">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @using (Html.BeginForm("Edit", "thongtinkhachhang", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Cập nhập người dùng</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="makh" id="makh" value="@nd.makh" />
+                    <label>Tên người dùng</label>
+                    <input type="text" id="tenkh" name="tenkh" value="@nd.tenkh" class="form-control" />
+             
+                    <br />
+                    <label>Địa chỉ</label>
+                    <input type="text" id="diachi" name="diachi" value="@nd.diachi" class="form-control" />
+                   
+                    <br />
+                    <label>Phone</label>
+                    <input type="text" id="phone" name="phone" value="@nd.phone" class="form-control" />
+                   
+                    <br />
+                    <label>Mật khẩu</label>
+                    <input type="text" id="pass" name="pass" value="@nd.pass" class="form-control" />
+                  
+                    <br />
+                    <label>Ảnh đại diện</label>
+                    <input type="file" id="" name="img" class="form-control" />
+                    
+                    <br />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    <button type="submit" id="btnAdd" class="btn btn-primary">Save changes</button>
+                </div>
+            }
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<style>
+    .thongtin {
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+        width: 500px;
+    }
+
+   
+
+</style>

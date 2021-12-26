@@ -1,0 +1,68 @@
+﻿@model IEnumerable<myHondaMVC.Models.khachhang>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/AdminCP/Views/Shared/_layout.cshtml";
+}
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên Khách hàng</th>
+                                <th>Email</th>
+                             
+                                <th>Số tiền đã mua</th>
+                                <th>Số đơn hàng thanh toán</th>
+                                <th>Trang thái</th>
+
+                                <th>Option</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int stt = 0;
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@Html.Raw(stt = stt + 1)</td>
+                                        <td>@item.tenkh</td>
+                                        <td>@item.email</td>
+                                        @*<td>@string.Format("{0:dd-MM-yyyy}", item.)</td>*@
+                                        <td>@double.Parse(item.sotiendamua.ToString()).ToString("#,##0")</td>
+                                        <td>@item.dathangs.Where(x => x.status == 3).Count()</td>
+                                        <td>
+                                            @if (item.status == true)
+                                            {
+                                                <button onclick="return _Status('@item.makh');" class="label label-success">active</button>
+                                            }
+                                            @if (item.status == false)
+                                            {
+                                                <button onclick="return _Status('@item.makh');" class="label label-danger">block</button>
+                                            }
+                                        </td>
+                                        <td>
+                                            <a href="@Url.Action("DonhangKH","Khachhang",new { id=item.makh})" class="btn btn-info fa fa-info-circle"></a>
+                                            <button onclick="return _delete('@item.makh');" title="remove" class="btn-danger btn-sm btn fa fa-trash-o"></button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>

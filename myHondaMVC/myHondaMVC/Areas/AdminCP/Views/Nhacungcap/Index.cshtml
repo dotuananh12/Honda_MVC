@@ -1,0 +1,243 @@
+﻿@model IEnumerable<myHondaMVC.Models.nhacungcap>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/AdminCP/Views/Shared/_layout.cshtml";
+}
+<section class="content-header">
+    <h1>
+        Nhà cung cấp
+    </h1>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <button type="button" onclick="return _clear()" class="btn btn-default">
+                        Thêm Nhà cung cấp
+                    </button>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên ncc</th>
+                                <th>Sdt</th>
+                                <th>Địa chỉ</th>
+                                <th>Ghi chú</th>
+
+                                <th>Option</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int stt = 0;
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@Html.Raw(stt = stt + 1)</td>
+                                        <td>@item.tenncc</td>
+
+                                        <td>@item.sdt</td>
+                                        <td>@item.diachi</td>
+                                        <td>@item.ghichu</td>
+
+                                        <td>
+                                            <button onclick="return _getById('@item.mancc');" title="Update" class="btn-success btn btn-sm fa fa-pencil-square-o"></button>
+                                            <button onclick="return _delete('@item.mancc');" title="remove" class="btn-danger btn-sm btn fa fa-trash-o"></button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Default Modal</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="mancc" name="mancc" class="form-control" />
+
+                <br />
+                <label>Tên loại</label>
+                <input type="text" id="tenncc" name="tenncc" class="form-control" />
+                <label class="label label-danger" id="er_tenncc"></label>
+                <br />
+                <label>Sdt</label>
+                <input type="text" id="sdt" name="sdt" class="form-control" />
+                <label class="label label-danger" id="er_sdt"></label>
+                <br />
+                <label>Địa chỉ</label>
+                <input type="text" id="diachi" name="diachi" class="form-control" />
+                <label class="label label-danger" id="er_diachi"></label>
+                <br />
+                <label>Ghi Chú</label>
+                @*<input type="text" id="ghichu" class="form-control" />*@
+                <input type="text" id="ghichu" name="ghichu" class="form-control" />
+                <label class="label label-danger" id="er_ghichu"></label>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="button" id="btnAdd" onclick="return _add();" class="btn btn-primary">Save changes</button>
+                <button type="button" id="btnUpdate" onclick="return _edit();" class="btn btn-primary">Update</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<script>
+    function _clear() {
+        //$('#mancc').val('');
+        $('#tenncc').val('');
+        $('#sdt').val('');
+        $('#diachi').val('');
+        $('#ghichu').val('');
+
+        //$('#er_tenncc').html('');
+        //$('#er_sdt').html('');
+        //$('#er_diachi').html('');
+        //$('#er_ghichu').html('');
+        $('#myModal').modal('show');
+        $('#btnUpdate').hide();
+        $('#btnAdd').show();
+        $('.modal-title').html('Thêm bản ghi');
+    }
+    function _add() {
+        //var mancc = $('#mancc').val();
+        var tenncc = $('#tenncc').val();
+        var sdt = $('#sdt').val();
+        var diachi = $('#diachi').val();
+        var ghichu = $('#ghichu').val();
+        $.ajax({
+            url: '/admincp/Nhacungcap/Create',
+            type: 'POST',
+            datatype: 'JSON',
+            data: {
+
+                tenncc: tenncc,
+                sdt: sdt,
+                diachi: diachi,
+                ghichu: ghichu
+            },
+            success: function (data) {
+                if (data.success == true) {
+                    alert(data.ms);
+                    location.reload();
+                } else {
+                    alert(data.ms);
+                }
+            },
+            error: function (data) {
+                alert('xay ra loi');
+            }
+        });
+    }
+    function _getById(id) {
+
+        $.ajax({
+            url: '/admincp/Nhacungcap/Get',
+            type: 'POST',
+            datatype: 'JSON',
+            data: {
+                id: id
+            },
+            success: function (data) {
+                if (data.success == true) {
+
+                    $('#mancc').val(data.dt.mancc);
+                    $('#tenncc').val(data.dt.tenncc);
+                    $('#sdt').val(data.dt.sdt);
+                    $('#diachi').val(data.dt.diachi);
+                    $('#ghichu').val(data.dt.ghichu);
+
+                    $('#er_tenncc').html('');
+                    $('#er_sdt').html('');
+                    $('#er_diachi').html('');
+                    $('#er_ghichu').html('');
+
+                    $('#myModal').modal('show');
+                    $('#btnUpdate').show();
+                    $('#btnAdd').hide();
+                    $('.modal-title').html('Sửa bản ghi');
+                } else {
+                    alert(data.ms);
+                }
+            },
+            error: function (data) {
+                alert('xay ra loi');
+            }
+        });
+    }
+
+    function _edit() {
+        var mancc = $('#mancc').val();
+        var tenncc = $('#tenncc').val();
+        var sdt = $('#sdt').val();
+        var diachi = $('#diachi').val();
+        var ghichu = $('#ghichu').val();
+        $.ajax({
+            url: '/admincp/Nhacungcap/Edit',
+            type: 'POST',
+            datatype: 'JSON',
+            data: {
+                mancc: mancc,
+                tenncc: tenncc,
+                sdt: sdt,
+                diachi: diachi,
+                ghichu: ghichu
+            },
+            success: function (data) {
+                if (data.success == true) {
+                    alert(data.ms);
+                    location.reload();
+                } else {
+                    alert(data.ms);
+                }
+            },
+            error: function (data) {
+                alert('xay ra loi');
+            }
+        });
+    }
+    function _delete(id) {
+        var cf = confirm('bạn có muốn xóa ?');
+        if (cf) {
+            $.ajax({
+                url: '/admincp/Nhacungcap/Delete',
+                type: 'POST',
+                datatype: 'JSON',
+                data: {
+                    id: id
+                },
+                success: function (data) {
+                    if (data.success == true) {
+                        alert(data.ms);
+                        location.reload();
+                    } else {
+                        alert(data.ms);
+                    }
+                },
+                error: function (data) {
+                    alert('xay ra loi');
+                }
+            });
+        }
+    }
+</script>

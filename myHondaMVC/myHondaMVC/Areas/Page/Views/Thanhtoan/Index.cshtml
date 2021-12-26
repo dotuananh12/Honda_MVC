@@ -1,0 +1,206 @@
+﻿@model List<myHondaMVC.Areas.Page.Models.CartItem>
+@using myHondaMVC.Models;
+@{
+    khachhang kh = (khachhang)Session["nguoidung_khach"];
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Page/Views/Shared/LayoutTrangchu.cshtml";
+}
+
+<div class="services-breadcrumb">
+    <div class="agile_inner_breadcrumb">
+        <div class="container">
+            <ul class="w3_short">
+                <li>
+                    <a href="@Url.Action("Index","Trangchu")">Home</a>
+                    <i>|</i>
+                </li>
+                <li>Thanh toán</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="privacy">
+    <div class="container">
+        <!-- tittle heading -->
+        <h3 class="tittle-w3l">
+            Thanh toán
+            <span class="heading-style">
+                <i></i>
+                <i></i>
+                <i></i>
+            </span>
+        </h3>
+        <!-- //tittle heading -->
+        <div class="checkout-right">
+            <!--Horizontal Tab-->
+            <div id="parentHorizontalTab">
+                <ul class="resp-tabs-list hor_1">
+                    <li>Sản phẩm</li>
+                    <li>Thanh toán</li>
+                </ul>
+                <div class="resp-tabs-container hor_1">
+
+                    <div>
+                        <div class="vertical_post check_box_agile">
+                            @if (Model.Count() > 0)
+                            {
+                                <table class="timetable_sub">
+                                    <thead>
+                                        <tr>
+
+
+                                            <th style="width: 300px;">Product Name</th>
+                                            <th>Price</th>
+                                            <th>Quality</th>
+                                            <th>Tổng</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            foreach (var item in Model)
+                                            {
+                                                <tr class="rem2">
+
+                                                    <td class="invert">@item.tensp</td>
+                                                    <td class="invert">@double.Parse(item.dongia.ToString()).ToString("#,##0")</td>
+                                                    <td class="invert">
+                                                        <div class="quantity">
+                                                            <div class="quantity-select">
+                                                                <div class="entry value">
+                                                                    <span>@item.soluong</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="invert">@double.Parse(item.ThanhTien.ToString()).ToString("#,##0")</td>
+                                                </tr>
+                                            }
+                                        }
+
+                                        <tr>
+                                            <td colspan="2"></td>
+                                            <td class="text-right">@Model.Sum(x => x.soluong)</td>
+                                            <td>@Model.Sum(x => x.ThanhTien).ToString("#,##0") </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                            }
+                        </div>
+                    </div>
+
+
+                    <div>
+                        <form action="#" method="post" class="creditly-card-form agileinfo_form">
+                            <div class="creditly-wrapper wthree, w3_agileits_wrapper">
+                                <div class="credit-card-wrapper">
+                                    <div class="first-row form-group">
+                                        <div class="controls">
+                                            <label class="control-label">Tên khách hàng</label>
+                                            <input class="billing-address-name form-control" type="text" value="@kh.tenkh" name="tenkh" id="tenkh" placeholder="họ tên">
+                                        </div>
+                                        <div class="controls">
+                                            <label class="control-label">Email</label>
+                                            <input class="billing-address-name form-control" type="text" value="@kh.email" name="gmail" id="gmail" placeholder="email">
+                                        </div>
+                                        <div class="controls">
+                                            <label class="control-label">Phone</label>
+                                            <input class="billing-address-name form-control" type="text" value="@kh.phone" name="phone" id="phone" placeholder="Phone">
+                                        </div>
+                                        <div class="controls">
+                                            <label class="control-label">Địa chỉ</label>
+                                            <input class="billing-address-name form-control" type="text" value="@kh.diachi" name="diachi" id="diachi" placeholder="địa chỉ">
+                                        </div>
+                                        <div class="controls">
+                                            <label class="control-label">Ghi chú</label>
+                                            <input class="billing-address-name form-control" type="text" name="ghichu" id="ghichu" placeholder="Ghi chú">
+                                        </div>
+                                    </div>
+                                    <button class="submit" onclick="return dathang()" type="button">
+                                        <span>Thanh toán</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                   
+
+                    
+
+                </div>
+            </div>
+            <!--Plug-in Initialisation-->
+        </div>
+    </div>
+</div>
+<script>
+        $(document).ready(function () {
+            //Horizontal Tab
+            $('#parentHorizontalTab').easyResponsiveTabs({
+                type: 'default', //Types: default, vertical, accordion
+                width: 'auto', //auto or any width like 600px
+                fit: true, // 100% fit in a container
+                tabidentify: 'hor_1', // The tab groups identifier
+                activate: function (event) { // Callback function if tab is switched
+                    var $tab = $(this);
+                    var $info = $('#nested-tabInfo');
+                    var $name = $('span', $info);
+                    $name.text($tab.text());
+                    $info.show();
+                }
+            });
+        });
+
+   
+    function dathang() {
+        var tenkh = $('#tenkh').val();
+        var gmail = $('#gmail').val();
+        var phone = $('#phone').val();
+        var diachi = $('#diachi').val();
+        var ghichu = $('#ghichu').val();
+        $.ajax({
+            url: '@Url.Action("Dathang","Thanhtoan")',
+            type: 'post',
+            datatype: 'json',
+            data: {
+                tenkh: tenkh,
+                email: gmail,
+                phone: phone,
+                diachi: diachi,
+                ghichu: ghichu
+            },
+            success: function (data) {
+                if (data.success == true) {
+                    alert(data.msg);
+                    cleargio();
+                    window.location = '@Url.Action("Index", "Order")';
+                }
+                else {
+                    alert(data.msg)
+                    //$('#myModal1').modal('show');
+                }
+            },
+            error: function (data) {
+
+            }
+        });
+    }
+    function cleargio() {
+        $.ajax({
+            url: '@Url.Action("Cleargio", "Thanhtoan")',
+            type: 'post',
+            datatype: 'json',
+            
+            success: function (data) {
+                if (data.success == true) {                 
+                    @*window.location = '@Url.Action("Index", "Trangchu")';*@
+                    }
+                
+            },
+            error: function (data) {
+
+            }
+        });
+    }
+</script>

@@ -1,0 +1,80 @@
+﻿
+@{
+    Layout = null;
+}
+
+<ul class="sidebar-menu" data-widget="tree">
+    <li class="header">MAIN NAVIGATION</li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="@Url.Action("Index","Hangsanxuat")"><i class="fa fa-circle-o"></i> Hãng sản xuất</a></li>
+            <li><a href="@Url.Action("Index","Loaixemay")"><i class="fa fa-circle-o"></i> Loại xe máy</a></li>
+            <li><a href="@Url.Action("Index","Nhacungcap")"><i class="fa fa-circle-o"></i> Nhà cung cấp</a></li>
+            <li><a href="@Url.Action("Index","Loaitaikhoan")"><i class="fa fa-circle-o"></i> Loại tài khoản</a></li>
+        </ul>
+    </li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-tasks"></i> <span>Sản phẩm</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+
+            <li><a href="@Url.Action("Index","xemay")"><i class="fa fa-circle-o"></i> Sản phẩm</a></li>
+        </ul>
+    </li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-tasks"></i> <span>Đơn hàng</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+
+            <li><a href="@Url.Action("Index","Donhang")"><i class="fa fa-circle-o"></i> Đơn hàng</a></li>
+            <li><a href="@Url.Action("Dathang_status","",new { status=1})"><i class="fa fa-circle-o"></i> Đơn hàng chờ</a></li>
+            <li><a href="@Url.Action("Dathang_status","",new { status=2})"><i class="fa fa-circle-o"></i> Đơn hàng đang giao</a></li>
+            <li><a href="@Url.Action("Dathang_status","",new { status=3})"><i class="fa fa-circle-o"></i> Đơn hàng hoàn thành</a></li>
+            <li><a href="@Url.Action("Dathang_status","",new { status=4})"><i class="fa fa-circle-o"></i> Đơn hàng hủy bỏ</a></li>
+        </ul>
+    </li>
+    <li>
+        <a href="@Url.Action("Index","Khachhang")">
+            <i class="fa fa-address-card"></i> <span>Khách hàng</span>
+        </a>
+    </li>
+    <li>
+        <a href="@Url.Action("Index","Taikhoan")">
+            <i class="fa fa-users"></i> <span>Người dùng</span>
+        </a>
+    </li>
+    @*<li>
+            <a href="../calendar.html">
+                <i class="fa fa-calendar"></i> <span>Calendar</span>
+                <span class="pull-right-container">
+                    <small class="label pull-right bg-red">3</small>
+                    <small class="label pull-right bg-blue">17</small>
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="../mailbox/mailbox.html">
+                <i class="fa fa-envelope"></i> <span>Mailbox</span>
+                <span class="pull-right-container">
+                    <small class="label pull-right bg-yellow">12</small>
+                    <small class="label pull-right bg-green">16</small>
+                    <small class="label pull-right bg-red">5</small>
+                </span>
+            </a>
+        </li>*@
+
+</ul>

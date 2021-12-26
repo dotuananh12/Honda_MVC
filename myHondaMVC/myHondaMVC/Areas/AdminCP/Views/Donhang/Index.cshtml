@@ -1,0 +1,107 @@
+﻿@model IEnumerable<myHondaMVC.Models.dathang>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/AdminCP/Views/Shared/_layout.cshtml";
+}
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>trang thái</th>
+                                <th>Tên Khách hàng</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Địa chỉ</th>
+                                <th>Ngày tạo</th>
+                                <th>Tỏng tiền</th>
+
+                                <th>Option</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int stt = 0;
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@Html.Raw(stt = stt + 1)</td>
+                                        <td>
+                                            @if (item.status == 1)
+                                            {
+                                                <label class="label label-warning">chờ xác nhận</label>
+                                            }
+                                            @if (item.status == 2)
+                                            {
+                                                <label class="label label-success">đang giao hàng</label>
+                                            }
+                                            @if (item.status == 3)
+                                            {
+                                                <label class="label label-primary">hoàn tất</label>
+                                            }
+                                            @if (item.status == 4)
+                                            {
+                                                <label class="label label-danger">hủy bỏ</label>
+                                            }
+
+                                        </td>
+                                        <td>@item.tenkh</td>
+                                        <td>@item.email</td>
+                                        <td>@item.phone</td>
+                                        <td>@item.diachi</td>
+                                        <td>@string.Format("{0:dd-MM-yyyy}", item.ngaytao)</td>
+                                        <td>@double.Parse(item.tongtien.ToString()).ToString("#,##0")</td>
+
+                                        <td>
+                                            <a href="@Url.Action("Details","donhang",new { id=item.madh})" class="btn btn-info fa fa-eye"></a>
+                                            <button onclick="return _delete('@item.madh');" title="remove" class="btn-danger btn-sm btn fa fa-trash-o"></button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<script>
+
+    function _delete(id) {
+        var cf = confirm('bạn có muốn làm điều này');
+        if (cf) {
+            $.ajax({
+                url: '@Url.Action("Delete","Donhang")',
+                type: 'POST',
+                datatype: 'JSON',
+                data: {
+                    id: id
+                },
+                success: function (data) {
+                    if (data.success == true) {
+                        alert(data.ms);
+                        location.reload();
+                    } else {
+                        alert(data.ms);
+                    }
+                },
+                error: function (data) {
+                    alert('xay ra loi');
+                }
+            });
+        }
+    }
+</script>

@@ -1,0 +1,266 @@
+﻿@model IEnumerable<myHondaMVC.Models.xemay>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/AdminCP/Views/Shared/_layout.cshtml";
+}
+<section class="content-header">
+    <h1>
+        Sản phẩm
+    </h1>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <button type="button" onclick="" class="btn btn-default" data-toggle="modal" data-target="#myModal">
+                        Sản phẩm mới
+                    </button>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Loại xe</th>
+                                <th>Tên xe</th>
+                                <th>Giá bán</th>
+                                <th>Số khung</th>
+                               
+                               
+                                @*<th>Động cơ</th>
+                                <th>Dung tích xi lanh</th>*@
+                                <th>Ngày đăng</th>
+                                @*<th>Trang thai</th>*@
+                                <th>Ảnh minh họa</th>
+                                <th>Option</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int stt = 0;
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@Html.Raw(stt = stt + 1)</td>
+                                        <td><p>@item.loaixe.tenloai</p></td>
+                                        <td>@item.tenxe</td>
+                                        <td>@double.Parse(item.giaban.ToString()).ToString("#,##0")</td>
+                                        <td>@item.khungxe</td>
+                                  
+                                        @*<td>@item.dongco</td>
+                                        <td>@item.dungtichxylanh</td>*@
+                                        <td>@string.Format("{0:dd-MM-yyyy}", item.ngaythem)</td>
+                                        @*<td>
+                                            @if (item.status == true)
+                                            {
+                                                <button onclick="return _Status('@item.maxe');" class="label label-success">active</button>
+                                            }
+                                            @if (item.status == false)
+                                            {
+                                                <button onclick="return _Status('@item.maxe');" class="label label-danger">block</button>
+                                            }
+                                        </td>*@
+                                        <td>
+                                            <img src="~/Image/@item.img" class="profile-user-img" />
+                                        </td>
+                                        <td>
+                                            <a href="/Admincp/xemay/xemchitiet/@item.maxe" class="btn btn-info fa fa-info-circle"></a>
+                                            <button onclick="return _delete('@item.maxe');" title="remove" class="btn-danger btn-sm btn fa fa-trash-o"></button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-lg" style="width: 90%">
+        <div class="modal-content">
+            @using (Html.BeginForm("Create", "xemay", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Sản phẩm mới</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <div class="form-horizontal">
+                        <div class="box-body">
+
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Tên Sản phẩm</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="tensp" name="tenxe" class="form-control" />
+                                        
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Loại sản phẩm</label>
+                                    <div class="col-sm-10">
+                                       @Html.DropDownList("maloai",null,new { @class="form-control"})
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Nhà cung cấp</label>
+                                    <div class="col-sm-10">
+                                        @Html.DropDownList("mancc", null, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                             
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Giá nhập</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="gianhap" name="gianhap" class="form-control" />
+                                     
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Giá bán</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="giaban" name="giaban" class="form-control" />
+                                        
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Khung xe</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="" name="khungxe" class="form-control" />
+                                        
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Màu sắc</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="" name="mausac" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Khối lượng</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="" name="khoiluong" class="form-control" />
+                                    </div>
+                                </div>
+                                
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Dung tích xy lanh</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="" name="dungtichxylanh" class="form-control" />
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Động cơ</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="" name="dongco" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Mức tiêu thụ nguyên liệu</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="" name="muctieuthunguyenlieu" class="form-control" />                                      
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Phuộc trước</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="" name="phuoctruoc" class="form-control" />
+                                        
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Phuộc sau</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="" name="phuocsau" class="form-control" />
+                                  
+                                    </div>
+                                </div>
+                           
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Số lượng</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="" name="soluong" class="form-control" />
+                                        
+                                    </div>
+                                </div>
+                                                                                   
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Ảnh đại diện</label>
+                                    <div class="col-sm-10">
+                                        <input type="file" id="" name="img" class="form-control" />                             
+                                    </div>
+                                </div>                             
+                                <div class="form-group">
+                                    <div class="col-sm-10 col-sm-offset-2">
+                                        <button type="reset" class="btn btn-success pull-right btn-sm">Làm lại</button>
+                                    </div>
+                                </div>                            
+                            </div>                            
+                        </div>
+
+                        <div class="box box-info">
+                            <div class="box-header">
+                                <h3 class="box-title">
+                                    Mô Tả
+                                </h3>                       
+                            </div>
+                            
+                            <div class="box-body pad">
+                                <textarea id="mota" name="mota" value="" rows="6" cols="200"></textarea>
+
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-info fa fa-save pull-right">Thêm mới</button>
+                        </div>
+                        <!-- /.box-footer -->
+                    </div>
+                </div>
+            }
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<script>
+    function _delete(id) {
+        var cf = confirm('Bạn có chắc muốn xóa ?');
+        if (cf) {
+            $.ajax({
+                url: '/admincp/xemay/Delete',
+                type: "POST",
+                dataType: "json",
+                data: {
+                    id: id,
+                },
+                success: function (data) {
+                    if (data.success == true) {
+                        alert(data.ms);
+                        location.reload();
+                    } else {
+                        alert(data.ms);
+                    }
+                },
+                error: function (errormessage) {
+                    alert('xảy ra lỗi');
+                }
+            });
+        }
+    }
+</script>

@@ -1,0 +1,481 @@
+﻿@using myHondaMVC.Models;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Page/Views/Shared/LayoutTrangchu.cshtml";
+    myHondacontext db = new myHondacontext();
+    khachhang kh = (khachhang)Session["nguoidung_khach"];
+}
+
+
+<div class="services-breadcrumb">
+    <div class="agile_inner_breadcrumb">
+        <div class="container">
+            <ul class="w3_short">
+                <li>
+                    <a href="@Url.Action("Index","Trangchu")">Home</a>
+                    <i>|</i>
+                </li>
+                <li>Track Order</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="privacy">
+    <div class="container">
+        <!-- tittle heading -->
+        <h3 class="tittle-w3l">
+            Track Order
+            <span class="heading-style">
+                <i></i>
+                <i></i>
+                <i></i>
+            </span>
+        </h3>
+        <!-- //tittle heading -->
+        <div class="checkout-right">
+            <!--Horizontal Tab-->
+            <div id="parentHorizontalTab">
+                <ul class="resp-tabs-list hor_1">
+                    <li>Chờ xác nhận</li>
+                    <li>Đang giao hàng</li>
+                    <li>Hoàn tất</li>
+                    <li>Hủy bỏ</li>
+                </ul>
+                <div class="resp-tabs-container hor_1" style="background:#6bc6f312">
+
+                    <div>
+                        @{
+                            foreach (var dh in db.dathangs.OrderByDescending(x => x.ngaytao).Where(x => x.status == 1 && x.makh == kh.makh))
+                            {
+                                <div class="purchase-list-page__order-card-wrapper">
+                                    <div class="order-card__container">
+                                        <div class="order-card__content-wrapper">
+                                            <div class="order-card__content">
+                                                <div class="order-content__container">
+                                                    <div class="order-content__header">
+                                                        <div class="order-content__header__seller">
+                                                            <div class="shopee-avatar">
+                                                                <div class="shopee-avatar__placeholder">
+                                                                    
+                                                                </div>
+                                                                @*<img class="shopee-avatar__img" src="~/Image/@dh.khachhang.img">*@
+                                                                <img class="shopee-avatar__img" src="~/Image/donghia.jpg" />
+                                                            </div>
+                                                            <span class="order-content__header__seller__name">@dh.khachhang.tenkh</span>
+
+                                                        </div>
+                                                        <div class="order-content__header__flex-placeholder"></div>
+                                                        <div class="order-content-status">Đơn hàng: @dh.madh</div>
+                                                    </div>
+                                                    <div class="order-content__item-list">
+                                                        @{
+                                                            foreach (var ct in dh.chitietdathangs)
+                                                            {
+                                                                <a href="#" class="order-content__item-wrapper">
+                                                                    <div class="order-content__item order-content__item--last">
+
+                                                                        <div class="order-content__item__col order-content__item__detail">
+                                                                            <div class="order-content__item__product">
+                                                                                <div class="order-content__item__image">
+                                                                                    <div class="shopee-image__wrapper">
+                                                                                      
+                                                                                        <div class="shopee-image__content">
+                                                                                            <div class="shopee-image__content--blur">
+
+                                                                                                <img src="~/Image/@ct.xemay.img" style="width: 100%;" />
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="order-content__item__detail-content">
+                                                                                    <div class="order-content__item__name">@ct.xemay.tenxe</div>
+                                                                                    <div class="order-content__item__quantity">x @ct.soluong</div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="order-content__item__price order-content__item__col order-content__item__col--small order-content__item__col--last">
+                                                                            <div class="order-content__item__price-text">
+                                                                                @*<div class="shopee-price--original">₫ @double.Parse((ct.giaban).ToString()).ToString("#,##0")</div>*@
+                                                                                @*<div class="shopee-price--primary">đơn giá : ₫ @double.Parse((ct.giaban).ToString()).ToString("#,##0")</div>*@
+                                                                                <div class="shopee-price--primary">₫ @double.Parse((ct.giaban * ct.soluong).ToString()).ToString("#,##0")</div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            }
+                                                        }
+
+                                                    </div>
+                                                    <div class="shopee-border-bottom-dotted-circle__container">
+                                                        <div class="shopee-border-bottom-dotted-circle__circle shopee-border-bottom-dotted-circle__circle--left">
+                                                        </div>
+                                                        <div class="shopee-border-bottom-dotted-circle__circle shopee-border-bottom-dotted-circle__circle--right">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="order-card__buttons-container">
+                                                        <div class="purchase-card-buttons__wrapper">
+                                                            <div class="purchase-card-buttons__total-payment">
+                                                                <div class="shopee-guarantee-icon purchase-card-buttons__shopee-guarantee-icon"></div>
+                                                                <span class="purchase-card-buttons__label-price"> Tổng số tiền: </span>
+                                                                <span class="purchase-card-buttons__total-price"> ₫ @double.Parse((dh.tongtien).ToString()).ToString("#,##0")</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="purchase-card-buttons__container">
+                                                            <div class="purchase-card-buttons__show-button-wrapper">
+                                                                <button class="shopee-button-solid shopee-button-solid--fill shopee-button-solid--primary" onclick="return _status('@dh.madh',4)">
+                                                                    <span class="purchase-card-buttons__button-content"> Hủy đơn hàng này </span>
+                                                                </button>
+                                                            </div>
+                                                            @*<div class="purchase-card-buttons__show-button-wrapper">
+                                                                    <button class="shopee-button-outline shopee-button-outline--fill shopee-button-outline--primary ">
+                                                                        <span class="purchase-card-buttons__button-content"> Xem Chi tiết đơn hàng </span>
+                                                                    </button>
+                                                                </div>*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                                            }
+                        }
+
+                    </div>
+                    <div>
+                        @{
+                            foreach (var dh in db.dathangs.OrderByDescending(x => x.ngaytao).Where(x => x.status == 2 && x.makh == kh.makh))
+                            {
+                                <div class="purchase-list-page__order-card-wrapper">
+                                    <div class="order-card__container">
+                                        <div class="order-card__content-wrapper">
+                                            <div class="order-card__content">
+                                                <div class="order-content__container">
+                                                    <div class="order-content__header">
+                                                        <div class="order-content__header__seller">
+                                                            <div class="shopee-avatar">
+                                                                <div class="shopee-avatar__placeholder">
+                                                                   
+
+                                                                </div>
+                                                                <img class="shopee-avatar__img" src="~/Image/Untitled123.png">
+
+                                                            </div>
+                                                            <span class="order-content__header__seller__name">@dh.khachhang.tenkh</span>
+
+                                                        </div>
+                                                        <div class="order-content__header__flex-placeholder"></div>
+                                                        <div class="order-content-status">Đơn hàng: @dh.madh</div>
+                                                    </div>
+                                                    <div class="order-content__item-list">
+                                                        @{
+                                                            foreach (var ct in dh.chitietdathangs)
+                                                            {
+                                                                <a href="#" class="order-content__item-wrapper">
+                                                                    <div class="order-content__item order-content__item--last">
+
+                                                                        <div class="order-content__item__col order-content__item__detail">
+                                                                            <div class="order-content__item__product">
+                                                                                <div class="order-content__item__image">
+                                                                                    <div class="shopee-image__wrapper">
+                                                                                       
+                                                                                        <div class="shopee-image__content">
+                                                                                            <div class="shopee-image__content--blur">
+
+                                                                                                <img src="~/Image/@ct.xemay.img" style="width: 100%;" />
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="order-content__item__detail-content">
+                                                                                    <div class="order-content__item__name">@ct.xemay.tenxe</div>
+                                                                                    <div class="order-content__item__quantity">x @ct.soluong</div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="order-content__item__price order-content__item__col order-content__item__col--small order-content__item__col--last">
+                                                                            <div class="order-content__item__price-text">
+                                                                                @*<div class="shopee-price--original">₫ @double.Parse((ct.giaban).ToString()).ToString("#,##0")</div>*@
+                                                                                @*<div class="shopee-price--primary">đơn giá : ₫ @double.Parse((ct.giaban).ToString()).ToString("#,##0")</div>*@
+                                                                                <div class="shopee-price--primary">₫ @double.Parse((ct.giaban * ct.soluong).ToString()).ToString("#,##0")</div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            }
+                                                        }
+
+                                                    </div>
+                                                    <div class="shopee-border-bottom-dotted-circle__container">
+                                                        <div class="shopee-border-bottom-dotted-circle__circle shopee-border-bottom-dotted-circle__circle--left">
+                                                        </div>
+                                                        <div class="shopee-border-bottom-dotted-circle__circle shopee-border-bottom-dotted-circle__circle--right">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="order-card__buttons-container">
+                                                        <div class="purchase-card-buttons__wrapper">
+                                                            <div class="purchase-card-buttons__total-payment">
+                                                                <div class="shopee-guarantee-icon purchase-card-buttons__shopee-guarantee-icon"></div>
+                                                                <span class="purchase-card-buttons__label-price"> Tổng số tiền: </span>
+                                                                <span class="purchase-card-buttons__total-price"> ₫ @double.Parse((dh.tongtien).ToString()).ToString("#,##0")</span>
+                                                            </div>
+                                                        </div>
+                                                     
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                                            }
+                        }
+
+                    </div>
+                   
+                    <div>
+                        @{
+                            foreach (var dh in db.dathangs.OrderByDescending(x => x.ngaytao).Where(x => x.status == 3 && x.makh == kh.makh))
+                            {
+                                <div class="purchase-list-page__order-card-wrapper">
+                                    <div class="order-card__container">
+                                        <div class="order-card__content-wrapper">
+                                            <div class="order-card__content">
+                                                <div class="order-content__container">
+                                                    <div class="order-content__header">
+                                                        <div class="order-content__header__seller">
+                                                            <div class="shopee-avatar">
+                                                                <div class="shopee-avatar__placeholder">
+                                                                    <svg class="shopee-svg-icon icon-headshot">
+                                                                        <g><circle cx="7.5" cy="4.5" fill="none" r="3.8" stroke-miterlimit="10"></circle><path d="m1.5 14.2c0-3.3 2.7-6 6-6s6 2.7 6 6" fill="none" stroke-linecap="round" stroke-miterlimit="10"></path></g>
+                                                                    </svg>
+
+                                                                </div>
+                                                                <img class="shopee-avatar__img" src="~/Image/Untitled123.png">
+                                                             
+
+                                                            </div>
+                                                            <span class="order-content__header__seller__name">@dh.khachhang.tenkh</span>
+
+                                                        </div>
+                                                        <div class="order-content__header__flex-placeholder"></div>
+                                                        <div class="order-content-status">Đơn hàng: @dh.madh</div>
+                                                    </div>
+                                                    <div class="order-content__item-list">
+                                                        @{
+                                                            foreach (var ct in dh.chitietdathangs)
+                                                            {
+                                                                <a href="#" class="order-content__item-wrapper">
+                                                                    <div class="order-content__item order-content__item--last">
+
+                                                                        <div class="order-content__item__col order-content__item__detail">
+                                                                            <div class="order-content__item__product">
+                                                                                <div class="order-content__item__image">
+                                                                                    <div class="shopee-image__wrapper">
+                                                                                        <div class="shopee-image__place-holder">
+                                                                                            <svg class="shopee-svg-icon icon-loading-image" enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0" y="0"><g><rect fill="none" height="8" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" width="10" x="1" y="4.5"></rect><line fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1" x2="11" y1="6.5" y2="6.5"></line><rect fill="none" height="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" width="3" x="11" y="6.5"></rect><line fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="1" x2="11" y1="14.5" y2="14.5"></line><line fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="6" x2="6" y1=".5" y2="3"></line><line fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="3.5" x2="3.5" y1="1" y2="3"></line><line fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="8.5" x2="8.5" y1="1" y2="3"></line></g></svg>
+                                                                                        </div>
+                                                                                        <div class="shopee-image__content">
+                                                                                            <div class="shopee-image__content--blur">
+
+                                                                                                <img src="~/Image/@ct.xemay.img" style="width: 100%;" />
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="order-content__item__detail-content">
+                                                                                    <div class="order-content__item__name">@ct.xemay.tenxe</div>
+                                                                                    <div class="order-content__item__quantity">x @ct.soluong</div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="order-content__item__price order-content__item__col order-content__item__col--small order-content__item__col--last">
+                                                                            <div class="order-content__item__price-text">
+                                                                                @*<div class="shopee-price--original">₫ @double.Parse((ct.giaban).ToString()).ToString("#,##0")</div>*@
+                                                                                @*<div class="shopee-price--primary">đơn giá : ₫ @double.Parse((ct.giaban).ToString()).ToString("#,##0")</div>*@
+                                                                                <div class="shopee-price--primary">₫ @double.Parse((ct.giaban * ct.soluong).ToString()).ToString("#,##0")</div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            }
+                                                        }
+
+                                                    </div>
+                                                    <div class="shopee-border-bottom-dotted-circle__container">
+                                                        <div class="shopee-border-bottom-dotted-circle__circle shopee-border-bottom-dotted-circle__circle--left">
+                                                        </div>
+                                                        <div class="shopee-border-bottom-dotted-circle__circle shopee-border-bottom-dotted-circle__circle--right">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="order-card__buttons-container">
+                                                        <div class="purchase-card-buttons__wrapper">
+                                                            <div class="purchase-card-buttons__total-payment">
+                                                                <div class="shopee-guarantee-icon purchase-card-buttons__shopee-guarantee-icon"></div>
+                                                                <span class="purchase-card-buttons__label-price"> Tổng số tiền: </span>
+                                                                <span class="purchase-card-buttons__total-price"> ₫ @double.Parse((dh.tongtien).ToString()).ToString("#,##0")</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="purchase-card-buttons__container">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                                            }
+                        }
+                    </div>
+
+
+                    <div>
+                        @{
+                            foreach (var dh in db.dathangs.OrderByDescending(x => x.ngaytao).Where(x => x.status == 4 && x.makh == kh.makh))
+                            {
+                                <div class="purchase-list-page__order-card-wrapper">
+                                    <div class="order-card__container">
+                                        <div class="order-card__content-wrapper">
+                                            <div class="order-card__content">
+                                                <div class="order-content__container">
+                                                    <div class="order-content__header">
+                                                        <div class="order-content__header__seller">
+                                                            <div class="shopee-avatar">
+                                                                <div class="shopee-avatar__placeholder">
+                                                                    <svg class="shopee-svg-icon icon-headshot">
+                                                                        <g><circle cx="7.5" cy="4.5" fill="none" r="3.8" stroke-miterlimit="10"></circle><path d="m1.5 14.2c0-3.3 2.7-6 6-6s6 2.7 6 6" fill="none" stroke-linecap="round" stroke-miterlimit="10"></path></g>
+                                                                    </svg>
+
+                                                                </div>
+                                                                <img class="shopee-avatar__img" src="~/Image/Untitled123.png">
+
+                                                            </div>
+                                                            <span class="order-content__header__seller__name">@dh.khachhang.tenkh</span>
+
+                                                        </div>
+                                                        <div class="order-content__header__flex-placeholder"></div>
+                                                        <div class="order-content-status">Đơn hàng: @dh.madh</div>
+                                                    </div>
+                                                    <div class="order-content__item-list">
+                                                        @{
+                                                            foreach (var ct in dh.chitietdathangs)
+                                                            {
+                                                                <a href="#" class="order-content__item-wrapper">
+                                                                    <div class="order-content__item order-content__item--last">
+
+                                                                        <div class="order-content__item__col order-content__item__detail">
+                                                                            <div class="order-content__item__product">
+                                                                                <div class="order-content__item__image">
+                                                                                    <div class="shopee-image__wrapper">
+                                                                                       
+                                                                                        <div class="shopee-image__content">
+                                                                                            <div class="shopee-image__content--blur">
+
+                                                                                                <img src="~/Image/@ct.xemay.img" style="width: 100%;" />
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="order-content__item__detail-content">
+                                                                                    <div class="order-content__item__name">@ct.xemay.tenxe</div>
+                                                                                    <div class="order-content__item__quantity">x @ct.soluong</div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="order-content__item__price order-content__item__col order-content__item__col--small order-content__item__col--last">
+                                                                            <div class="order-content__item__price-text">
+                                                                             
+                                                                                <div class="shopee-price--primary">₫ @double.Parse((ct.giaban * ct.soluong).ToString()).ToString("#,##0")</div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            }
+                                                        }
+
+                                                    </div>
+                                                    <div class="shopee-border-bottom-dotted-circle__container">
+                                                        <div class="shopee-border-bottom-dotted-circle__circle shopee-border-bottom-dotted-circle__circle--left">
+                                                        </div>
+                                                        <div class="shopee-border-bottom-dotted-circle__circle shopee-border-bottom-dotted-circle__circle--right">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="order-card__buttons-container">
+                                                        <div class="purchase-card-buttons__wrapper">
+                                                            <div class="purchase-card-buttons__total-payment">
+                                                                <div class="shopee-guarantee-icon purchase-card-buttons__shopee-guarantee-icon"></div>
+                                                                <span class="purchase-card-buttons__label-price"> Tổng số tiền: </span>
+                                                                <span class="purchase-card-buttons__total-price"> ₫ @double.Parse((dh.tongtien).ToString()).ToString("#,##0")</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="purchase-card-buttons__container">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                                            }
+                        }
+                    </div>
+
+                </div>
+            </div>
+            <!--Plug-in Initialisation-->
+        </div>
+    </div>
+</div>
+<script>
+
+    $(document).ready(function () {
+        //Horizontal Tab
+        $('#parentHorizontalTab').easyResponsiveTabs({
+            type: 'default', //Types: default, vertical, accordion
+            width: 'auto', //auto or any width like 600px
+            fit: true, // 100% fit in a container
+            tabidentify: 'hor_1', // The tab groups identifier
+            activate: function (event) { // Callback function if tab is switched
+                var $tab = $(this);
+                var $info = $('#nested-tabInfo');
+                var $name = $('span', $info);
+                $name.text($tab.text());
+                $info.show();
+            }
+        });
+    });
+</script>
+<script>
+
+    function _status(id,status) {
+        var cf = confirm('bạn có muốn hủy đơn hàng');
+        if (cf) {
+            $.ajax({
+                url: '@Url.Action("Status", "Order")',
+                type: 'POST',
+                datatype: 'JSON',
+                data: {
+                    id: id,
+                    status:status
+                },
+                success: function (data) {
+                    if (data.success == true) {
+                        alert(data.ms);
+                        location.reload();
+                    } else {
+                        alert(data.ms);
+                    }
+                },
+                error: function (data) {
+                    alert('xay ra loi');
+                }
+            });
+        }
+    }
+</script>

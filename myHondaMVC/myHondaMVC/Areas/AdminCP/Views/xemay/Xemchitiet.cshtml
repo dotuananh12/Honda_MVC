@@ -1,0 +1,266 @@
+﻿@model myHondaMVC.Models.xemay
+
+@{
+    ViewBag.Title = "Xemchitiet";
+    Layout = "~/Areas/AdminCP/Views/Shared/_layout.cshtml";
+}
+<section class="content">
+    <div class="row">
+        
+        
+        <div class="col-xs-12">
+            <div class="panel">
+                <div class="">
+                    <h3>Thông tin Chi tiết : @Model.tenxe</h3>
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+
+                <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                    <!-- Indicators -->
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner">
+                        <div class="item active">
+
+                            <img src="~/Image/@Model.img" alt="@Model.tenxe" />
+                        </div>
+                       
+
+                    </div>
+
+                    <div class="panel">
+                        <div class="box-header">
+                            <button type="button" onclick="" class="btn btn-info" data-toggle="modal" data-target="#myModal">
+                                Sửa sản phẩm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+              
+            </div>
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                <div class="col-md-12">
+                    <div class="alert alert-info">
+                        @Model.tenxe
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    Dòng xe :
+                                    @Model.loaixe.tenloai
+                                </li>
+
+                                <li class="list-group-item">
+                                    Đại lý cung cấp :
+                                    @Model.nhacungcap.tenncc
+                                </li>
+                              
+
+                                <li class="list-group-item">Giá nhập : @double.Parse(Model.gianhap.ToString()).ToString("#,##0") vnd</li>
+                                <li class="list-group-item">Giá bán : @double.Parse(Model.giaban.ToString()).ToString("#,##0") vnd</li>
+                                <li class="list-group-item">
+                                    Khuyến mại : @double.Parse(Model.giakhuyenmai.ToString()).ToString("#,##0")
+                                </li>
+                                <li class="list-group-item">Ngày thêm : @string.Format("{0:dd-MM-yyyy}", Model.ngaythem)</li>
+                                <li class="list-group-item">Động cơ : @Model.dongco</li>
+                                <li class="list-group-item">Màu sắc : @Model.mausac</li>
+                               
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-group">
+                                <li class="list-group-item">Khối lượng : @Model.khoiluong</li>
+                                <li class="list-group-item">Dung tích xy lanh : @Model.dungtichxylanh</li>
+                                <li class="list-group-item">Khung xe : @Model.khungxe</li>
+                                <li class="list-group-item">Mức tiêu thụ nguyên liệu : @Model.muctieuthunguyenlieu</li>
+                                <li class="list-group-item">Phuộc trước : @Model.phuoctruoc</li>
+                                <li class="list-group-item">Phuộc sau : @Model.phuocsau</li>
+                                <li class="list-group-item">Số lượng : @Model.soluong</li>
+                               
+                            </ul>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="panel">
+                                <div class="panel-body">
+                                    <h3>Đặc điểm :</h3>
+                                    @Html.Raw(Model.mota)
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                @* --- *@
+
+
+            </div>
+        </div>
+       
+    </div>
+ 
+</section>
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-lg" style="width: 90%">
+        <div class="modal-content">
+            @using (Html.BeginForm("Edit", "xemay", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Sửa sản phẩm</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <div class="form-horizontal">
+                        <div class="box-body">
+
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <input type="hidden" id="" name="maxe" value="@Model.maxe" class="form-control" />
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Tên Sản phẩm</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="tensp" name="tenxe" value="@Model.tenxe" class="form-control" />
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Loại sản phẩm</label>
+                                    <div class="col-sm-10">
+                                        @Html.DropDownList("maloai", null, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Nhà cung cấp</label>
+                                    <div class="col-sm-10">
+                                        @Html.DropDownList("mancc", null, new { @class = "form-control" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Giá nhập</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="gianhap" name="gianhap" value="@Model.gianhap" class="form-control" />
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Giá bán</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="giaban" name="giaban"value="@Model.giaban" class="form-control" />
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Khung xe</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="" name="khungxe" value="@Model.khungxe" class="form-control" />
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Màu sắc</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="" name="mausac" value="@Model.mausac" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Khối lượng</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="" name="khoiluong" value="@Model.khoiluong" class="form-control" />
+                                    </div>
+                                </div>
+                               
+                               
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Dung tích xy lanh</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="" name="dungtichxylanh" value="@Model.dungtichxylanh" class="form-control" />
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Động cơ</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="" name="dongco" value="@Model.dongco" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Mức tiêu thụ nguyên liệu</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="" name="muctieuthunguyenlieu"value="@Model.muctieuthunguyenlieu" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Phuộc trước</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="" name="phuoctruoc"value="@Model.phuoctruoc" class="form-control" />
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Phuộc sau</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="" name="phuocsau"value="@Model.phuocsau" class="form-control" />
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Số lượng</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="" name="soluong"value="@Model.soluong" class="form-control" />
+
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Ảnh đại diện</label>
+                                    <div class="col-sm-10">
+                                        <input type="file" id="" name="img" value="@Model.img" class="form-control" />
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-10 col-sm-offset-2">
+                                        <button type="reset" class="btn btn-success pull-right btn-sm">Làm lại</button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                        <div class="box box-info" style="display:none">
+                            <div class="box-header">
+                                <h3 class="box-title">
+                                    Mô Tả
+                                </h3>
+                            </div>
+
+                            <div class="box-body pad">
+                                <textarea id="mota" name="mota" value="@Model.mota" rows="6" cols="200"></textarea>
+
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-info fa fa-save pull-right">Cập nhật</button>
+                        </div>
+                        <!-- /.box-footer -->
+                    </div>
+                </div>
+            }
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

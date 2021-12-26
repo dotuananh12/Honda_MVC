@@ -1,0 +1,217 @@
+﻿@model IEnumerable<myHondaMVC.Models.loaixe>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/AdminCP/Views/Shared/_layout.cshtml";
+}
+
+<section class="content-header">
+    <h1>
+        Loại tin
+    </h1>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <button type="button" onclick="return _clear()" class="btn btn-default" data-toggle="modal" data-target="#myModal">
+                        Thêm Loại Xe
+                    </button>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Loại</th>
+                               
+                                <th>Ghi chú</th>
+
+                                <th>Option</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int stt = 0;
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@Html.Raw(stt = stt + 1)</td>
+                                        <td>@item.tenloai</td>
+
+                                        
+                                        <td>@item.ghichu</td>
+
+                                        <td>
+                                            <button onclick="return _getById('@item.maloai');" title="Update" class="btn-success btn btn-sm fa fa-pencil-square-o"></button>
+                                            <button onclick="return _delete('@item.maloai');" title="remove" class="btn-danger btn-sm btn fa fa-trash-o"></button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Default Modal</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="maloai" name="maloai" class="form-control" />
+
+                <br />
+                <label>Tên loại</label>
+                <input type="text" id="tenloai" name="tenloai" class="form-control" />
+               
+              
+                <br />
+                <label>Ghi Chú</label>
+                @*<input type="text" id="ghichu" class="form-control" />*@
+                <input type="text" id="ghichu" name="ghichu" class="form-control" />
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="button" id="btnAdd" onclick="return _add();" class="btn btn-primary">Save changes</button>
+                <button type="button" id="btnUpdate" onclick="return _edit();" class="btn btn-primary">Update</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<script>
+    function _clear() {
+        $('#maloai').val('');
+        $('#tenloai').val('');
+      
+        $('#ghichu').val('');
+        $('#btnUpdate').hide();
+        $('#btnAdd').show();
+        $('.modal-title').html('Thêm bản ghi');
+    }
+
+    function _add() {
+        var tenloai = $('#tenloai').val();
+       
+        var ghichu = $('#ghichu').val();
+        $.ajax({
+            url: '/loaixemay/Create',
+            type: 'POST',
+            datatype: 'JSON',
+            data: {
+                tenloai: tenloai,
+               
+                ghichu: ghichu
+            },
+            success: function (data) {
+                if (data.success == true) {
+                    alert(data.ms);
+                    location.reload();
+                } else {
+                    alert(data.ms);
+                }
+            },
+            error: function (data) {
+                alert('xay ra loi');
+            }
+        });
+    }
+    function _getById(id) {
+
+        $.ajax({
+            url: '/Loaixemay/Get',
+            type: 'POST',
+            datatype: 'JSON',
+            data: {
+                id: id
+            },
+            success: function (data) {
+                if (data.success == true) {
+
+                    $('#maloai').val(data.dt.maloai);
+                    $('#tenloai').val(data.dt.tenloai);               
+                    $('#ghichu').val(data.dt.ghichu);
+                    $('#myModal').modal('show');
+                    $('#btnUpdate').show();
+                    $('#btnAdd').hide();
+                    $('.modal-title').html('Sửa bản ghi');
+                } else {
+                    alert(data.ms);
+                }
+            },
+            error: function (data) {
+                alert('xay ra loi');
+            }
+        });
+    }
+
+    function _edit() {
+        var maloai = $('#maloai').val();
+        var tenloai = $('#tenloai').val();
+       
+        var ghichu = $('#ghichu').val();
+        $.ajax({
+            url: '/Loaixemay/Edit',
+            type: 'POST',
+            datatype: 'JSON',
+            data: {
+                maloai: maloai,
+                tenloai: tenloai,
+              
+                ghichu: ghichu
+            },
+            success: function (data) {
+                if (data.success == true) {
+                    alert(data.ms);
+                    location.reload();
+                } else {
+                    alert(data.ms);
+                }
+            },
+            error: function (data) {
+                alert('xay ra loi');
+            }
+        });
+    }
+
+    function _delete(id) {
+        var cf = confirm('bạn có muốn làm điều này');
+        if (cf) {
+            $.ajax({
+                url: '/Loaixemay/Delete',
+                type: 'POST',
+                datatype: 'JSON',
+                data: {
+                    id: id
+                },
+                success: function (data) {
+                    if (data.success == true) {
+                        alert(data.ms);
+                        location.reload();
+                    } else {
+                        alert(data.ms);
+                    }
+                },
+                error: function (data) {
+                    alert('xay ra loi');
+                }
+            });
+        }
+    }
+</script>

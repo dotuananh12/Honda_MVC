@@ -1,0 +1,766 @@
+﻿@using myHondaMVC.Models;
+@{
+    myHondacontext db = new myHondacontext();
+    Layout = null;
+}
+
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <title>Honda Việt nam</title>
+    <!--/tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <!--//tags -->
+    <link href="~/Areas/Page/Asset/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/Areas/Page/Asset/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/Areas/Page/Asset/css/font-awesome.css" rel="stylesheet">
+    <!--pop-up-box-->
+    <link href="~/Areas/Page/Asset/css/popuo-box.css" rel="stylesheet" type="text/css" media="all" />
+    <!--//pop-up-box-->
+    <!-- price range -->
+    <link rel="stylesheet" type="text/css" href="~/Areas/Page/Asset/css/jquery-ui1.css">
+    <!-- flexslider -->
+    <link rel="stylesheet" href="~/Areas/Page/Asset/css/flexslider.css" type="text/css" media="screen" />
+    <!-- fonts -->
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800" rel="stylesheet">
+    <link href="~/Areas/Page/Asset/track_order.css" rel="stylesheet" />
+    <script src="~/Areas/Page/Asset/jquery-1.10.1.min.js"></script>
+    <style>
+        .modal-body.modal-body-sub_agile input[type="button"] {
+            border: none;
+            padding: 10px 40px;
+            font-size: 14px;
+            outline: none;
+            text-transform: uppercase;
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: #1accfd;
+            color: #fff;
+            margin: 20px 0;
+        }
+
+            .modal-body.modal-body-sub_agile input[type="button"]:hover {
+                background: #000;
+            }
+
+        .w3view-cart {
+            outline: none;
+            border: none;
+            background: #FF5722;
+            width: 48px;
+            height: 43px;
+            font-size: 24px;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- top-header -->
+    <div class="header-most-top">
+        <p>Lựa Chọn
+Phong Cách Riêng Của Bạn</p>
+    </div>
+    <!-- //top-header -->
+    <!-- header-bot-->
+    <div class="header-bot">
+        <div class="header-bot_inner_wthreeinfo_header_mid">
+            <!-- header-bot-->
+            <div class="col-md-4 logo_agile">
+                <h1>
+                    <a href="/Page/Trangchu">
+                      
+                        <img src="~/Image/logo.svg" alt="" style="width:60%">
+                    </a>
+                </h1>
+            </div>
+            <!-- header-bot -->
+            <div class="col-md-8 header">
+                <!-- header lists -->
+                <ul>
+                    <li>
+                        <a class="play-icon popup-with-zoom-anim" href="#small-dialog1">
+                            <span class="fa fa-map-marker" aria-hidden="true"></span> Vị trí của hàng
+                        </a>
+                    </li>
+                    <li id="order">
+                        <a href="#" data-toggle="modal" data-target="#myModal1">
+                            <span class="fa fa-truck" aria-hidden="true"></span>Theo dõi đơn hàng
+                        </a>
+                    </li>
+                    <li>
+                        <span class="fa fa-phone" aria-hidden="true"></span> 001 234 5678
+                    </li>
+                    <li id="Dangnhap">
+                        <a href="#" data-toggle="modal" data-target="#myModal1">
+                            <span class="fa fa-unlock-alt" aria-hidden="true"></span> Đăng nhập
+                        </a>
+                    </li>
+                    @*<li id="signin">
+                        <a href="#"onclick="return signout()">
+                            <span class="fa fa-unlock-alt" aria-hidden="true"></span> Đăng xuất
+                        </a>
+                    </li>*@
+                    <li id="Dangxuat">
+                        <a href="#" data-toggle="modal" data-target="#myModal2">
+                            <span class="fa fa-pencil-square-o" aria-hidden="true"></span> Đăng ký
+                        </a>
+                    </li>
+                </ul>
+                <!-- //header lists -->
+                <!-- search -->
+                <div class="agileits_search">
+                    @using (Html.BeginForm("Search", "Danhsach", FormMethod.Post))
+                    {
+                        <input name="Search" type="search" placeholder="bạn cần tìm gì ?" required="">
+                        <button type="submit" class="btn btn-default" aria-label="Left Align">
+                            <span class="fa fa-search" aria-hidden="true"> </span>
+                        </button>
+                    }
+                </div>
+                <!-- //search -->
+                <!-- cart details -->
+                <div class="top_nav_right">
+                    <div class="wthreecartaits wthreecartaits2 cart cart box_1">
+
+                        @*<button class="w3view-cart" type="submit" name="submit" value="">
+                                <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
+                            </button>*@
+                        <a href="@Url.Action("Index", "Giohang")" class="w3view-cart btn"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+                <!-- //cart details -->
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- shop locator (popup) -->
+    <!-- Button trigger modal(shop-locator) -->
+    <!-- //shop locator (popup) -->
+    <!-- signin Model -->
+    <!-- Modal1 -->
+    <div class="modal fade" id="myModal1" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body modal-body-sub_agile">
+                    <div class="main-mailposi">
+                        <span class="fa fa-envelope-o" aria-hidden="true"></span>
+                    </div>
+                    <div class="modal_body_left modal_body_left1">
+                        <h3 class="agileinfo_sign">Sign In </h3>
+                        <p>
+                            Sign In now, Let's start your Grocery Shopping. Don't have an account?
+                            <a href="#" data-toggle="modal" data-target="#myModal2">
+                                Sign Up Now
+                            </a>
+                        </p>
+                        <form action="#" method="post">
+                            <div class="styled-input agile-styled-input-top">
+                                <input type="text" placeholder="User Name" name="email" id="email" required="">
+                            </div>
+                            <div class="styled-input">
+                                <input type="password" placeholder="Password" name="password" id="password" required="">
+                            </div>
+                            <input type="button" onclick="return login_nd()" value="xác nhận">
+                        </form>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <!-- //Modal content-->
+        </div>
+    </div>
+    <script>
+
+    </script>
+    <!-- //Modal1 -->
+    <!-- //signin Model -->
+    <!-- signup Model -->
+    <!-- Modal2 -->
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body modal-body-sub_agile">
+                    <div class="main-mailposi">
+                        <span class="fa fa-envelope-o" aria-hidden="true"></span>
+                    </div>
+                    <div class="modal_body_left modal_body_left1">
+                        <h3 class="agileinfo_sign">Sign Up</h3>
+                        <p>
+                            Hãy thiết lập tài khoản cho bạn
+                        </p>
+                        @using (Html.BeginForm("Signup", "Login", FormMethod.Post))
+                        {
+                            <div class="styled-input agile-styled-input-top">
+                                <input type="text" placeholder="Name" name="tenkh" required="">
+                            </div>
+                            <div class="styled-input">
+                                <input type="email" placeholder="E-mail" name="email" required="">
+                            </div>
+                            <div class="styled-input">
+                                <input type="password" placeholder="Password" name="pass" id="password1" required="">
+                            </div>
+                            <div class="styled-input">
+                                <input type="password" placeholder="Confirm Password" name="Confirm Password" id="password2" required="">
+                            </div>
+                            <div class="styled-input">
+                                <input type="text" placeholder="dịa chi" name="diachi" required="">
+                            </div>
+                            <div class="styled-input">
+                                <input type="text" placeholder="phone" name="phone" required="">
+                            </div>
+                            <input type="submit" value="Sign Up">
+                        }
+                        <p>
+                            <a href="#">By clicking register, I agree to your terms</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- //Modal content-->
+        </div>
+    </div>
+    <!-- //Modal2 -->
+
+    <!-- Modal3 giỏ hàng -->
+    <div class="modal fade" id="myModal3" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body modal-body-sub_agile" id="msg">
+
+                </div>
+            </div>
+            <!-- //Modal content-->
+        </div>
+    </div>
+    <!-- //Modal3 -->
+    <!-- //signup Model -->
+    <!-- //header-bot -->
+    <!-- navigation -->
+    <div class="ban-top">
+        <div class="container">
+            <div class="agileits-navi_search" style="width: 20%;">
+                <form action="#" method="post">
+                    <select id="agileinfo-nav_search" name="agileinfo_search" required="">
+                        <option value="">Danh mục</option>
+                        @{
+                            foreach (var item in db.loaixes.OrderByDescending(x => x.maloai))
+                            {
+                                <a href="@Url.Action("Danhmucloai", "Danhsach",new { id=item.maloai})">@item.tenloai</a>    
+                                
+                            }
+                        }
+
+                    </select>
+                </form>
+            </div>
+            <div class="top_nav_left">
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+                                    aria-expanded="false">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse menu--shylock" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav menu__list">
+                                <li class="active">
+                                    <a class="nav-stylehead" href="/page/trangchu">
+                                        Home
+                                        <span class="sr-only">(current)</span>
+                                    </a>
+                                </li>
+                                
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle nav-stylehead" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                        Sản phẩm
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu multi-column columns-3" style="min-width: 473px;">
+                                        <div class="agile_inner_drop_nav_info">
+                                            <div class="col-sm-4 multi-gd-img">
+                                                <ul class="multi-column-dropdown">
+                                                    @{
+                                                        foreach (var item in db.loaixes.OrderByDescending(x => x.maloai).Take(10))
+                                                        {
+                                                            <li>
+                                                                <a href="@Url.Action("Danhmucloai", "Danhsach",new { id=item.maloai})">@item.tenloai</a>
+                                                            </li>
+                                                        }
+                                                    }
+
+                                                </ul>
+                                            </div>
+
+                                            <div class="col-sm-6 multi-gd-img">
+                                                <img src="~/Areas/Page/Asset/images/nav.png" alt="" style="margin-top: 0px;">
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </ul>
+                                </li>
+                         
+                                <li class="">
+                                    <a class="nav-stylehead" href="/Page/Lienhe">Contact</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- //navigation -->
+    @RenderBody()
+    <!-- newsletter -->
+    <div class="footer-top">
+        <div class="container-fluid">
+            <div class="col-xs-8 agile-leftmk">
+                <h2>Get your Groceries delivered from local stores</h2>
+                <p>Free Delivery on your first order!</p>
+                <form action="#" method="post">
+                    <input type="email" placeholder="E-mail" name="email" required="">
+                    <input type="submit" value="Subscribe">
+                </form>
+                <div class="newsform-w3l">
+                    <span class="fa fa-envelope-o" aria-hidden="true"></span>
+                </div>
+            </div>
+            <div class="col-xs-4 w3l-rightmk">
+                <img src="~/Areas/Page/Asset/images/tab3.png" alt="">
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- //newsletter -->
+    <!-- footer -->
+    <footer>
+        <div class="container">
+            <!-- footer third section -->
+            <div class="footer-info w3-agileits-info">
+                <!-- footer categories -->
+                <div class="col-sm-5 address-right">
+                    <div class="col-xs-6 footer-grids">
+                        <h3>Categories</h3>
+                        <ul>
+                            <li>
+                                <a href="product.html">Grocery</a>
+                            </li>
+                            <li>
+                                <a href="product.html">Fruits</a>
+                            </li>
+                            <li>
+                                <a href="product.html">Soft Drinks</a>
+                            </li>
+                            <li>
+                                <a href="product2.html">Dishwashers</a>
+                            </li>
+                            <li>
+                                <a href="product.html">Biscuits & Cookies</a>
+                            </li>
+                            <li>
+                                <a href="product2.html">Baby Diapers</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-6 footer-grids agile-secomk">
+                        <ul>
+                            <li>
+                                <a href="product.html">Snacks & Beverages</a>
+                            </li>
+                            <li>
+                                <a href="product.html">Bread & Bakery</a>
+                            </li>
+                            <li>
+                                <a href="product.html">Sweets</a>
+                            </li>
+                            <li>
+                                <a href="product.html">Chocolates & Biscuits</a>
+                            </li>
+                            <li>
+                                <a href="product2.html">Personal Care</a>
+                            </li>
+                            <li>
+                                <a href="product.html">Dried Fruits & Nuts</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <!-- //footer categories -->
+                <!-- quick links -->
+                <div class="col-sm-5 address-right">
+                    <div class="col-xs-6 footer-grids">
+                        <h3>Quick Links</h3>
+                        <ul>
+                            <li>
+                                <a href="about.html">About Us</a>
+                            </li>
+                            <li>
+                                <a href="contact.html">Contact Us</a>
+                            </li>
+                            <li>
+                                <a href="help.html">Help</a>
+                            </li>
+                            <li>
+                                <a href="faqs.html">Faqs</a>
+                            </li>
+                            <li>
+                                <a href="terms.html">Terms of use</a>
+                            </li>
+                            <li>
+                                <a href="privacy.html">Privacy Policy</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-6 footer-grids">
+                        <h3>Get in Touch</h3>
+                        <ul>
+                            <li>
+                                <i class="fa fa-map-marker"></i> 123 Sebastian, USA.
+                            </li>
+                            <li>
+                                <i class="fa fa-mobile"></i> 333 222 3333
+                            </li>
+                            <li>
+                                <i class="fa fa-phone"></i> +222 11 4444
+                            </li>
+                            <li>
+                                <i class="fa fa-envelope-o"></i>
+                                <a href="mailto:example@mail.com"> mail@example.com</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- //quick links -->
+                <!-- social icons -->
+                <div class="col-sm-2 footer-grids  w3l-socialmk">
+                    <h3>Follow Us on</h3>
+                    <div class="social">
+                        <ul>
+                            <li>
+                                <a class="icon fb" href="#">
+                                    <i class="fa fa-facebook"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="icon tw" href="#">
+                                    <i class="fa fa-twitter"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="icon gp" href="#">
+                                    <i class="fa fa-google-plus"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="agileits_app-devices">
+                        <h5>Download the App</h5>
+                        <a href="#">
+                            <img src="~/Areas/Page/Asset/images/1.png" alt="">
+                        </a>
+                        <a href="#">
+                            <img src="~/Areas/Page/Asset/images/2.png" alt="">
+                        </a>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+                <!-- //social icons -->
+                <div class="clearfix"></div>
+            </div>
+            <!-- //footer third section -->
+        </div>
+    </footer>
+    <!-- //footer -->
+    <!-- copyright -->
+    <div class="copy-right">
+        <div class="container">
+            <p>
+                © 2017 Grocery Shoppy. All rights reserved | Design by
+                <a href="http://w3layouts.com"> W3layouts.</a>
+            </p>
+        </div>
+    </div>
+    <!-- //copyright -->
+    <!-- js-files -->
+    <!-- jquery -->
+    <script src="~/Areas/Page/Asset/js/jquery-2.1.4.min.js"></script>
+    <!-- //jquery -->
+    <!-- popup modal (for signin & signup)-->
+    <script src="~/Areas/Page/Asset/js/jquery.magnific-popup.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.popup-with-zoom-anim').magnificPopup({
+                type: 'inline',
+                fixedContentPos: false,
+                fixedBgPos: true,
+                overflowY: 'auto',
+                closeBtnInside: true,
+                preloader: false,
+                midClick: true,
+                removalDelay: 300,
+                mainClass: 'my-mfp-zoom-in'
+            });
+
+        });
+    </script>
+
+    <!-- cart-js -->
+    <script src="~/Areas/Page/Asset/js/minicart.js"></script>
+
+    <!-- //cart-js -->
+    <!-- price range (top products) -->
+    <script src="~/Areas/Page/Asset/js/jquery-ui.js"></script>
+
+
+    <script src="~/Areas/Page/Asset/js/SmoothScroll.min.js"></script>
+    <!-- //smoothscroll -->
+    <!-- start-smooth-scrolling -->
+    <script src="~/Areas/Page/Asset/js/move-top.js"></script>
+    <script src="~/Areas/Page/Asset/js/easing.js"></script>
+    <!-- easy-responsive-tabs -->
+    <link rel="stylesheet" type="text/css" href="~/Areas/Page/Asset/css/easy-responsive-tabs.css " />
+    <script src="~/Areas/Page/Asset/js/easyResponsiveTabs.js"></script>
+
+    <!-- //easy-responsive-tabs -->
+    <!-- credit-card -->
+    <script src="~/Areas/Page/Asset/js/creditly.js"></script>
+    <link rel="stylesheet" href="~/Areas/Page/Asset/css/creditly.css" type="text/css" media="all" />
+
+  
+    <!-- //credit-card -->
+   
+    <!-- //end-smooth-scrolling -->
+    <!-- smooth-scrolling-of-move-up -->
+    <script>
+        $(document).ready(function () {
+            /*
+			var defaults = {
+				containerID: 'toTop', // fading element id
+				containerHoverID: 'toTopHover', // fading element hover id
+				scrollSpeed: 1200,
+				easingType: 'linear'
+			};
+			*/
+            $().UItoTop({
+                easingType: 'easeOutQuart'
+            });
+            kiemtralogin();//hiển thị khi load lại trang
+        });
+    </script>
+    <!-- //smooth-scrolling-of-move-up -->
+    <!-- for bootstrap working -->
+    <script src="~/Areas/Page/Asset/js/bootstrap.js"></script>
+    <!-- //for bootstrap working -->
+    <!-- //js-files -->
+    <!-- imagezoom -->
+    <script src="~/Areas/Page/Asset/js/imagezoom.js"></script>
+    <!-- //imagezoom -->
+    <!-- FlexSlider -->
+    <script src="~/Areas/Page/Asset/js/jquery.flexslider.js"></script>
+    <script>
+		// Can also be used with $(document).ready()
+		$(window).load(function () {
+			$('.flexslider').flexslider({
+				animation: "slide",
+				controlNav: "thumbnails"
+			});
+		});
+    </script>
+    <!-- //FlexSlider-->
+    <!-- flexisel (for special offers) -->
+    <script src="~/Areas/Page/Asset/js/jquery.flexisel.js"></script>
+    <script>
+		$(window).load(function () {
+			$("#flexiselDemo1").flexisel({
+				visibleItems: 3,
+				animationSpeed: 1000,
+				autoPlay: true,
+				autoPlaySpeed: 3000,
+				pauseOnHover: true,
+				enableResponsiveBreakpoints: true,
+				responsiveBreakpoints: {
+					portrait: {
+						changePoint: 480,
+						visibleItems: 1
+					},
+					landscape: {
+						changePoint: 640,
+						visibleItems: 2
+					},
+					tablet: {
+						changePoint: 768,
+						visibleItems: 2
+					}
+				}
+			});
+
+		});
+    </script>
+    <!-- //flexisel (for special offers) -->
+    <script>
+        function addCart(id) {
+            var cf = confirm("bạn muốn thêm sản phẩm này vào giỏ hàng");
+            if (cf) {
+                $.ajax({
+                    url: '/Page/Giohang/AddCart',
+                    type: 'POST',
+                    datatype: 'JSON',
+                    data: {
+                        id: id
+                    },
+                    success: function (data) {
+                        $('#msg').html('' + data.ms + '');
+                        $('#myModal3').modal('show');
+                    },
+                    error: function (data) {
+                        alert('xảy ra lỗi');
+                    }
+                });
+            }          
+        }
+      
+        function formatNumber(nStr, decSeperate, groupSeperate) {
+            nStr += '';
+            x = nStr.split(decSeperate);
+            x1 = x[0];
+            x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + groupSeperate + '$2');
+            }
+            return x1 + x2;
+        }
+
+    </script>
+
+    <script>
+        function login_nd() {
+            var email = $('#email').val();
+            var password = $('#password').val();
+            $.ajax({
+                url: '@Url.Action("Login","Login")',
+                type: 'post',
+                datatype: 'json',
+                data: {
+                    email: email,
+                    password: password
+                },
+                success: function (data) {
+                    if (data.success == true) {
+                        alert(data.msg)
+                        $('#myModal1').modal('hide');
+                        //
+                        kiemtralogin();//chuyển đến ktralogin
+                 
+                    }
+                    else {
+                        alert(data.msg)
+                    }
+                },
+                error: function (data) {
+
+                }
+            });
+        }
+        function kiemtralogin() {
+            $.ajax({
+                url: '@Url.Action("kiemtralogin", "Login")',
+                type: 'post',
+                datatype: 'json',
+
+                success: function (data) {
+                    var html = '';
+                    var html1 = '';
+                    var html3 = '';
+                    if (data.success == true) {
+                        html += '<a href="@Url.Action("Index", "thongtinkhachhang")">';
+                        html += ' <span class="fa fa-user" aria-hidden="true"></span> ' + data.user + '';
+                        html += '  </a>';
+                        $('#Dangnhap').html(html);//gọi 
+
+                        html1 += ' <a href="#" onclick="return signout()">';
+                        html1 += '   <span class="fa fa-sign-out" aria-hidden="true"></span> Sign out';
+                        html1 += ' </a>';
+                        $('#Dangxuat').html(html1);
+                    }
+                   
+
+
+                },
+                error: function (data) {
+
+                }
+            });
+        }
+        function signout() {
+            $.ajax({
+                url: '@Url.Action("signout", "Login")',
+                type: 'post',
+                datatype: 'json',
+
+                success: function (data) {
+                    if (data.success == true) {
+                        alert(data.msg)
+                        $('#myModal1').modal('show');
+                        kiemtralogin();
+                        window.location = '@Url.Action("Index", "Trangchu")';
+                    }
+                    else {
+                        alert(data.msg)
+                    }
+                },
+                error: function (data) {
+
+                }
+            });
+        }
+
+
+    </script>
+    
+
+
+</body>
+
+</html>
